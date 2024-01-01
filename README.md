@@ -18,37 +18,38 @@ This lab focused on implementing fundamental operations on arrays, including sor
 3. Compile the C file using a C compiler, e.g., `make clean; make`
 4. Run the compiled test cases. There are three test cases in total., e.g., `make submit test1`, to execute the test cases and observe the algorithms in action.
 
-## Lab 2: Linked List Implementation
+## Lab 2: Tree Traversal Algorithms
 
 ### Overview
-- **Objective**: Implement a singly linked list.
-- **Topics Covered**: Linked list data structure, node manipulation in C.
+- **Objective**: Implement tree traversal algorithms (e.g., inorder, preorder, postorder).
+- **Topics Covered**: Binary trees, traversal techniques in C.
 - **Files**: `pa2.c, pa2.h`, `README.md`.
 
 ### Description
-This lab involved implementing a singly linked list in C. The `pa2.c` file contains the code for the linked list data structure, including operations like insertion, deletion, and traversal. It also includes example usage and test cases.
+This lab focused on implementing various tree traversal algorithms (inorder, preorder, postorder) for binary trees in C. The `pa2.c` file contains C implementations of these traversal methods along with explanations, demonstrating how each traversal technique works on a binary tree.
 
 ### How to Compile and Run
 1. Clone this repository.
 2. Navigate to the `PA2` directory.
 3. Compile the C file using a C compiler, e.g., `make clean; make`.
-4. Run the compiled test cases. There are four test cases in total., e.g., `make submit test1`, to execute the test cases and observe the linked list operations.
+4. Run the compiled test cases. There are four test cases in total, e.g., `make submit test1`, to execute the test cases and observe the tree traversal algorithms.
 
-## Lab 3: Tree Traversal Algorithms
+## Lab 3: Trie Node Algorithms
 
 ### Overview
-- **Objective**: Implement tree traversal algorithms (e.g., inorder, preorder, postorder).
-- **Topics Covered**: Binary trees, traversal techniques in C.
+- **Objective**: Implement trie nodes for efficient string search and storage.
+- **Topics Covered**: Trie data structure, string manipulation in C.
 - **Files**: `pa3.c, pa3.h`, `README.md`.
 
 ### Description
-This lab focused on implementing various tree traversal algorithms (inorder, preorder, postorder) for binary trees in C. The `pa3.c` file contains C implementations of these traversal methods along with explanations, demonstrating how each traversal technique works on a binary tree.
+This lab involved implementing trie nodes in C for efficient string search and storage. The `pa3.c` file contains the code for constructing trie data structures, insertion, searching, and deletion operations on trie nodes. It also includes examples and explanations illustrating how trie nodes work for strings.
 
 ### How to Compile and Run
 1. Clone this repository.
 2. Navigate to the `PA3` directory.
 3. Compile the C file using a C compiler, e.g., `make clean; make`.
-4. Run the compiled test cases. There are three test cases in total., e.g., `make submit test1`, to execute the test cases and observe the tree traversal algorithms.
+4. Run the compiled test cases. There are three test cases in total, e.g., `make submit test1`, to execute the test cases and observe the trie node implementations.
+
 
 ## Lab 4: Graph Algorithms
 
