@@ -202,10 +202,10 @@ void delete_all_records()
 
 // sort the record array using quick sort
 // use cmp_record implementaion to compare two records
-void exchange(struct record *arr, int i, int j) {
-  struct record temp = arr[i];
-  arr[i] = arr[j];
-  arr[j] = temp;
+void exchange(struct record record1, struct record record2) {
+  struct record temp = record1;
+  record1 = record2;
+  record2 = temp;
 }
 
 int partition(struct record *arr, int lo, int hi) {
@@ -222,13 +222,13 @@ int partition(struct record *arr, int lo, int hi) {
     }
 
     if (left <= right) {
-      exchange(arr, left, right);
+      exchange(arr[left], arr[right]);
       left++;
       right--;
     }
   }
 
-  exchange(arr, lo, right);
+  exchange(arr[lo], arr[right]);
   return right;
 }
 
@@ -334,29 +334,33 @@ size_t get_num_records_with_name_linear(char name[MAX_LEN])
   return num;
 }
 
+void swap1(struct record *x, struct record *y){
+  struct record temp = *x;
+  *x = *y;
+  *y = temp;
+}
+
 // implement quick sort algorithm to sort the 
 // record_arr using name as key
 int partition1(struct record* arr, int lo, int hi) {
   struct record pivot = arr[lo];
-  int left = lo + 1;
+  int left = lo;
   int right = hi;
 
-  while (left <= right) {
-    while (left <= right && (strcmp(arr[left].name, pivot.name)) < 0) {
+  while (left < right) {
+    while (left <= hi - 1 && (strcmp(arr[left].name, pivot.name)) <= 0) {
       left++;
     }
-    while (left <= right && (strcmp(arr[right].name, pivot.name)) > 0) {
+    while (hi >= lo + 1 && (strcmp(arr[right].name, pivot.name)) > 0) {
       right--;
     }
 
-    if (left <= right) {
-      exchange(arr, left, right);
-      left++;
-      right--;
+    if (left < right) {
+      swap1(&arr[left], &arr[right]);
     }
   }
 
-  exchange(arr, lo, right);
+  swap1(&arr[lo], &arr[right]);
   return right;
 }
 
@@ -384,20 +388,23 @@ void rearrange_data()
 // use binary search to obtain the results
 // you can assume that the caller has sorted
 // data using name as key before making these queries
-size_t get_num_records_with_name_binary(char name[MAX_LEN])
-{
-	struct record* records = get_record_arr();
+size_t get_num_records_with_name_binary(char name[MAX_LEN]) {
+  size_t count = 0;
   int l = 0;
-  int count = 0;
   int r = num_records - 1;
-  // printf("Entering Loop");
-  while (l <= r){
-    // printf("Entered Loop");
-    int m = (r + l)/2;
-    printf("%d %d %d %d\n", l, r, m, count);
-    if (strcmp(records[m].name,name) == 0){
+    
+  while (l <= r) {
+    int m = l + (r - l) / 2;
+    if (strcmp(record_arr[m].name, name) == 0) {
       count++;
-    } else if(strcmp(records[m].name,name) < 0){
+      for (int i = m - 1; i >= 0 && strcmp(record_arr[i].name, name) == 0; i--) {
+        count++;
+      }
+      for (int i = m + 1; i < num_records && strcmp(record_arr[i].name, name) == 0; i++) {
+        count++;
+      }
+      break;
+    } else if (strcmp(record_arr[m].name, name) < 0) {
       l = m + 1;
     } else {
       r = m - 1;

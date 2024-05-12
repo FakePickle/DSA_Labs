@@ -26,14 +26,10 @@ struct list_events* get_history(char msg[MAX_MSG_LEN])
 {
 	struct trie_node* temp = trie_root->child;
 	struct trie_node *prev;
-	// printf("%s\n",msg);
-	// if (trie_root->child->next == NULL) printf("NLL\n");
-	// printf("entering loop routine\n");
 	while (temp != NULL)
 	{
 		if (*msg == temp->val)
 		{
-			// printf("1\n");
 			prev=temp;
 			temp = temp->child;
 			*msg++;
@@ -47,6 +43,7 @@ struct list_events* get_history(char msg[MAX_MSG_LEN])
 	if (prev->history==NULL) return NULL;
 	else return prev->history;
 }
+
 
 // remove all the delete and the corresponding 
 // post events from the history of msg, before returning
@@ -62,59 +59,72 @@ struct list_events* get_history(char msg[MAX_MSG_LEN])
 // Notice that the history list only contains the post events
 // after the cleanup
 // the order of the post events remains the same during the cleanup
-struct list_events* get_clean_history(char msg[MAX_MSG_LEN])
-{
+struct list_events* get_clean_history(char msg[MAX_MSG_LEN]) {
 	struct trie_node* temp = trie_root->child;
-	struct trie_node *prev;
-	// printf("%s\n",msg);
-	// if (trie_root->child->next == NULL) printf("NLL\n");
-	// printf("entering loop routine\n");
-	while (temp != NULL)
-	{
-		if (*msg == temp->val)
-		{
-			// printf("1\n");
-			prev=temp;
+	struct trie_node* prev = NULL;
+
+	// Traverse the trie to find the node corresponding to the message
+	while (temp != NULL) {
+		if (*msg == temp->val) {
+			prev = temp;
 			temp = temp->child;
 			*msg++;
-		}
-		else
-		{
-			prev=temp;
+		} else {
+			prev = temp;
 			temp = temp->next;
 		}
 	}
-	if (prev->history == NULL)
-	{
+	
+	// If the message is not present in the trie, return NULL
+	if (prev == NULL || prev->history == NULL) {
 		return NULL;
 	}
-	else
-	{
-		int i;
-		while (prev->history->next != NULL)
-		{
-			struct list_events* previous;
-			struct list_events* _prev = prev->history;
-			struct record* temp = prev->history->record;
-			struct list_events* curr = prev->history->next;
-			i = prev->history->action;
-			while (curr->next != NULL)
-			{
-				if (temp == curr->record && i == 1 && curr->action == 2)
-				{
-					struct list_events* __temp = curr;
-					previous->next = curr->next;
-					free_memory(__temp);
-					curr = previous;
+	
+	// Remove delete events and their corresponding post events from the history
+	struct list_events* current = prev->history;
+	struct list_events* prev_event = NULL;
+	
+	while (current != NULL) {
+		prev_event = current;
+		
+		if (current->action == DELETED) {
+			
+			struct list_events* temp = prev->history;
+			struct list_events* prev_post = NULL;
+			while (temp != NULL) {
+				if (temp->action == POSTED && temp->record == current->record) {
+					if (prev_post == NULL) {
+						prev->history = temp->next;
+					} else {
+						prev_post->next = temp->next;
+					}
+					free_memory(temp);
+					break;
 				}
-				previous = curr;
-				curr = curr->next;
+				prev_post = temp;
+				temp = temp->next;
 			}
-			prev->history = prev->history->next;
+			
+			if (prev_event == prev->history) {
+				prev->history = current->next;
+				free_memory(current);
+				current = prev->history;
+			} else {
+				prev_event->next = current->next;
+				free_memory(current);
+				current = prev_event->next;
+			}
+		} else {
+			prev_event = current;
+			current = current->next;
 		}
 	}
+	
+
 	return prev->history;
 }
+
+
 
 // the maximum length of the '\0' terminated message 
 // stored in msg is MAX_MSG_LEN
@@ -214,21 +224,14 @@ int delete_latest_post(struct record *r)
 {
 	if (r->posts == NULL || r->posts->node == NULL)
 	{
-		// if (r->posts == NULL) {
-		// 	printf("No posts found\n");
-		// } else {
-		// 	printf("Post points to no square node\n");
-		// }
 		return 0;
 	}
-	// struct trie_node *q = r->posts->node;
 	struct list_events *temp = (struct list_events *)allocate_memory(sizeof(struct list_events));
 	temp->action = 1;
 	temp->record = r;
 	temp->next = r->posts->node->history;
 	r->posts->node->history = temp;
 	struct list_posts *posts_tmp = r->posts->next;
-	// printf("Action %d\n",r->posts->node->history->action);
 	free_memory(r->posts);
 	r->posts = posts_tmp;
 	return 1;
@@ -256,52 +259,31 @@ void delete_all_posts(struct record *r)
 // in the trie
 int read_latest_post(struct record *r, char msg[MAX_MSG_LEN])
 {
-	// printf("%s\n",msg);
 	if (r->posts == NULL)
 	{
 		return 0;
 	}
-	// struct list_events* temp = r->posts->node->history;
-	// struct trie_node* _temp = r->posts->node;
-	// while (temp != NULL)
-	// {
-	// 	if (temp->record == r && temp->action == 2)
-	// 	{
 	char str[MAX_MSG_LEN];
 	int i = 0;
-	// printf("Entering\n");
 	struct trie_node* curr = r->posts->node;
 	while (curr)
 	{
-		// printf("%p (trie_root=%p)\n", r->posts->node, trie_root);
 		char tmp = curr->val;
-		// printf("Started\n");
 		str[i] = tmp;
 		i++;
-		// printf("%c\n", curr->val);
 		curr = curr->parent;
-		// printf("Crossed\n");
 		if (curr == NULL)
 		{
-			// printf("Breaking\n");
 			break;
 		}
-		// printf("Restarting loop, shifted to %p\n", r->posts->node);
 	}
-	// printf("Reverse String %s\n", str);
 	for (i = strlen(str) - 1; i >= 0; i--)
 	{
-		// printf("%d\n",i);
 		*msg = str[i];
 		*msg++;
 	}
-	// printf("Stored %s\n", msg);
-	// printf("%s\n",msg);
 	*msg = '\0';
 	return 1;
-	// 	}
-	// 	temp = temp->next;
-	// }
 }
 
 // Delete all the memory allocated for the trie and
