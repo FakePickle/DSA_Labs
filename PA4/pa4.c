@@ -113,50 +113,25 @@ void delete_friends_list(struct record *r)
 // reachable via r, must contain the minimum distance from r;
 // and the pred field must contain the predecessor on a shorest
 // path.
-struct list_records* shortest_path(struct record* root, struct list_records* friends, struct record* r)
-{
-  if (friends == NULL)
-  {
-    return friends;
-  }
-  struct list_records* friends_record = friends;
-  while (friends_record != NULL)
-  {
-    if (friends_record->record->pred != NULL && friends_record->record == root)
-    {
-      double dist = r->distance + distance(&friends_record->record->loc, &root->loc);
-      if (dist <= root->distance)
-      {
-        root->distance = dist;
-        root->pred = friends_record->record;
-        root->verify ++;
-      }
-    }
-    friends_record = friends_record->next;
-  }
-  return shortest_path(root, friends->next, r);
+static double calculate_distance(struct record* r1, struct record* r2) {
+  return distance(&(r1->loc), &(r2->loc));
 }
 
-void compute_sssp(struct record* r)
+struct list_records* shortest_path(struct record* root, struct list_records* friends, struct record* r)
 {
-  struct list_records *friends = r->friends;
-  r->status = 0;
-  r->distance = 0;
-  r->pred = NULL;
-  while (friends != NULL)
-  {
-    double dist = r->distance + distance(&r->loc, &friends->record->loc);
-    friends->record->distance = dist;
-    friends->record->pred = r;
-    printf("Status is %d\n",friends->record->verify);
-    friends->record->verify ++;
-    friends = friends->next;
-  }
-  struct list_records *temp = r->friends;
-  while (temp != NULL)
-  {
-    struct record* tmp = temp->record;
-    shortest_path(tmp, temp->record->friends, r);
-    temp = temp->next;
-  }
+  
+}
+
+
+// Compute the single-source shortest paths (SSSP) from r
+void compute_sssp(struct record* r) {
+    // Initialize status field
+    struct list_records* friends = r->friends;
+    while (friends != NULL) {
+        friends->record->status = 0; // Set status to unvisited
+        friends = friends->next;
+    }
+
+    // Compute shortest paths
+    shortest_path(NULL, r->friends, r);
 }

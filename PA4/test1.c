@@ -82,7 +82,6 @@ int main(int argc, char *argv[]) {
 
   start_time(&start);
   for (i = 0; i < size; i++) {
-    printf("Iteration %d\n", i+1);
     for (j = 0; j < size; j++) {
       friends = get_friends_list(&record_arr[i]);
       verify_checksum_flist(check_sum_arr[i], friends);
@@ -91,9 +90,7 @@ int main(int argc, char *argv[]) {
     check_status_and_verify(record_arr, size);
     check_integrity_record_arr(record_arr, size, checksum);
     compute_sssp(&record_arr[i]);
-    printf("Entering SSSP\n");
     verify_sssp(&record_arr[i]);
-    printf("Exiting SSSP\n");
     assert(record_arr[i].distance == 0);
     record_arr[i].verify = 3;
     verify_sssp1(&record_arr[i]);

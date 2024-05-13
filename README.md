@@ -10,7 +10,7 @@ This repository contains the documentation and solutions for the Data Structures
 - **Files**: `pa1.c, pa1.h`, `README.md`.
 
 ### Description
-This lab focused on implementing fundamental operations on arrays, including sorting algorithms like Bubble Sort and Insertion Sort in C. The `pa1.c` file contains C implementations of these algorithms along with relevant explanations and examples.
+This lab focused on implementing fundamental operations on arrays, including sorting algorithms like Quick Sort and Merge Sort in C. The `pa1.c` file contains C implementations of these algorithms along with relevant explanations and examples.
 
 ### How to Compile and Run
 1. Clone this repository.
@@ -26,7 +26,7 @@ This lab focused on implementing fundamental operations on arrays, including sor
 - **Files**: `pa2.c, pa2.h`, `README.md`.
 
 ### Description
-This lab focused on implementing various tree traversal algorithms (inorder, preorder, postorder) for binary trees in C. The `pa2.c` file contains C implementations of these traversal methods along with explanations, demonstrating how each traversal technique works on a binary tree.
+This lab focused on implementing various tree traversal algorithms (inorder, preorder, postorder) for binary and avl trees in C. The `pa2.c` file contains C implementations of these traversal methods along with explanations, demonstrating how each traversal technique works on a binary tree.
 
 ### How to Compile and Run
 1. Clone this repository.
@@ -51,15 +51,15 @@ This lab involved implementing trie nodes in C for efficient string search and s
 4. Run the compiled test cases. There are three test cases in total, e.g., `make submit test1`, to execute the test cases and observe the trie node implementations.
 
 
-## Lab 4: Graph Algorithms
+## Lab 4: Shortest Path Algorithm (Prims' and Kruskals' Algorithm)
 
 ### Overview
-- **Objective**: Implement common graph algorithms (e.g., BFS, DFS).
-- **Topics Covered**: Graph data structure, traversal algorithms in C.
+- **Objective**: Implement shortest path algorithms (Prims' and Kruskals') for graphs.
+- **Topics Covered**: Graph algorithms, minimum spanning trees in C.
 - **Files**: `pa4.c, pa4.h`, `README.md`.
 
 ### Description
-This lab involved implementing graph algorithms like Breadth-First Search (BFS) and Depth-First Search (DFS) for traversing graphs in C. The `pa4.c` file contains C implementations of these algorithms along with examples and explanations demonstrating their functionalities on various types of graphs.
+This lab focused on implementing Prims' and Kruskals' algorithms for finding the minimum spanning tree in a graph. The `pa4.c` file contains C implementations of these algorithms along with explanations and examples, demonstrating how each algorithm works on a graph.
 
 ### How to Compile and Run
 1. Clone this repository.
@@ -68,6 +68,6 @@ This lab involved implementing graph algorithms like Breadth-First Search (BFS) 
 4. Run the compiled test case. There is one test case in total., e.g., `make submit test1`, to execute the test case and observe the graph traversal algorithms.
 
 ## Conclusion
-These labs provided hands-on experience with various data structures and algorithms in the C programming language, reinforcing the understanding of fundamental concepts in DSA.
+These labs provided hands-on experience with various data structures and algorithms in the C programming language, reinforcing the understanding of fundamental concepts in DSA. As well as taught us how to understand pointers, memory management, and algorithmic thinking.
 
 Feel free to explore each lab's directory for more detailed information and C code implementations.

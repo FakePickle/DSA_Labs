@@ -740,8 +740,6 @@ void verify_sssp(struct record *r)
   while (lr) {
     t = lr->record;
     dist = r->distance + distance(&r->loc, &t->loc);
-    printf("Distance calculated by pa4.c is %f\n", t->distance);
-    printf("Distance calculated by lib.c is %f\n", dist);
     assert(t->distance <= dist);
     visited = t->verify != 0;
     if (t->verify != 2) {
@@ -763,7 +761,6 @@ void verify_sssp1(struct record *r)
   while (lr) {
     t = lr->record;
     visited = t->verify == 3;
-    printf("Verification is %d\n", t->verify);
     assert(t->verify >= 2);
     if (t->verify == 2) {
       t->verify = 3;
